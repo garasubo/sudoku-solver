@@ -54,9 +54,9 @@ let set_cell problem pos x =
 
 let cell_check problem pos = 
   match get_possible_num problem pos with
-    | [] -> raise No_answer
-    | x::[] -> set_cell problem pos x ; true
-    | _ -> false
+    | [] -> None
+    | x::[] -> set_cell problem pos x ; Some true
+    | _ -> Some false
 
 
 let rec solve problem = 
@@ -69,13 +69,15 @@ let rec solve problem =
       in
         List.fold_left (+) 0 (List.rev_map dfs_inner ls)
     in
-      try 
-        if List.fold_left (||) false (List.rev_map (cell_check problem) ls) then
-          solve problem
-        else
-          dfs (List.hd ls)
-      with
-          No_answer -> 0
+    let option_or b1 b2 = 
+      match (b1,b2) with
+        | (Some x,Some y) -> Some (x || y)
+        | (_,_) -> None
+    in
+      match List.fold_left option_or (Some false) (List.rev_map (cell_check problem) ls) with
+        | Some true -> solve problem
+        | Some false -> dfs (List.hd ls)
+        | None -> 0
   in
     (* 候補をチェックしていく *)
     match get_space problem with
