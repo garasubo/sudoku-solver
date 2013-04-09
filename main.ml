@@ -12,6 +12,14 @@ exception Run_error
 
 let calc_pos x y = x * 9 + y
 
+let print_problem problem = 
+  for i = 0 to 8 do
+    for j = 0 to 8 do 
+      print_int problem.num.(calc_pos j i)
+    done;
+    print_newline ()
+  done
+
 let check_num x y num problem = problem.check.((calc_pos x y)*9 + num - 1)
 
 let get_space problem= 
@@ -71,7 +79,7 @@ let rec solve problem =
   in
     (* 候補をチェックしていく *)
     match get_space problem with
-      |[] -> 1
+      |[] -> print_endline "find ans"; print_problem problem ;1
       |ls -> solve_inner ls
 
 
