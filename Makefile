@@ -4,7 +4,7 @@ TARGET=solver
 all: $(TARGET)
 
 $(TARGET):
-	ocamlbuild main.native
+	ocamlbuild -lib str main.native
 	mv main.native $(TARGET)
 
 clean:

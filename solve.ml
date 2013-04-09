@@ -29,7 +29,8 @@ let set_cell problem pos x =
     problem.num.(pos) <- x;
     for i = 0 to 8 do problem.check.((row*9+i)*9+x-1) <- false done;
     for i = 0 to 8 do problem.check.((i*9+col)*9+x-1) <- false done;
-    for i = 0 to 8 do problem.check.(calc_pos (bx+i/3) (by+i%3)) <- false done
+    for i = 0 to 8 do problem.check.((calc_pos (bx+i/3) (by+i%3))*9+x-1) <- false done;
+    for i = 0 to 8 do problem.check.(pos*9+i) <- false done;
 
 let cell_check problem pos = 
   match get_possible_num pos with

@@ -1,4 +1,4 @@
 type problem_t = {
-    num : char array;
+    num : int array;
     check : bool array;
 }
